@@ -1,6 +1,5 @@
 from decimal import Decimal
 from datetime import datetime, timedelta
-from flask import g
 
 from flask import (
     render_template,
@@ -24,16 +23,17 @@ _PENDING_OP_KEY = "pending_operation"
 _PENDING_OP_OTP_ID_KEY = "pending_operation_otp_id"
 
 def login_required(view):
-    @wraps(view)
+    """
+    Decorador muy simple que reutiliza la sesión creada por el flujo MFA.
+    No toca nada del diseño de autenticación: solo verifica que exista user_id.
+    """
     def wrapper(*args, **kwargs):
-        user = get_current_user()
-        if user is None:
-            # Limpia la sesión por si hay un user_id viejo
-            session.clear()
+        user_id = session.get("user_id")
+        if not user_id:
+            flash("Debes iniciar sesión y completar el MFA.", "error")
             return redirect(url_for("auth.login"))
-        # Guarda el usuario en 'g' para usarlo en las vistas
-        g.current_user = user
         return view(*args, **kwargs)
+    wrapper.__name__ = view.__name__
     return wrapper
 
 
@@ -333,26 +333,18 @@ def reenviar_otp_operacion():
     flash("Te reenviamos un nuevo código OTP a tu correo.", "info")
     return redirect(url_for("finance.confirmar_operacion"))
 
-
-
 @finance_bp.route("/dashboard")
 @login_required
 def dashboard():
-    # Gracias al decorador, aquí siempre debería existir
-    user = getattr(g, "current_user", None)
-    if user is None:
-        # Fallback defensivo por si acaso
-        return redirect(url_for("auth.login"))
-
+    user = User.query.get(session["user_id"])
     accounts = Account.query.filter_by(user_id=user.id).all()
-    total_balance = sum(a.balance for a in accounts)
-
+    total_balance = sum(a.balance for a in accounts) if accounts else 0
     return render_template(
         "finance/dashboard.html",
+        user=user,
         accounts=accounts,
         total_balance=total_balance,
     )
-
 
 @finance_bp.route("/gestion")
 @login_required
