@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Cuentas y transferencias{% endblock %}
+{% block content %}
+<section class="dashboard">
+  <h1>Cuentas y transferencias</h1>
+  <p class="dashboard-subtitle">
+    Administra tus cuentas bancarias simuladas y realiza transferencias internas
+    o a otros usuarios del portal.
+  </p>
+
+  <!-- Bloque de resumen pequeño -->
+  <div class="cards-grid" style="margin-bottom: 1.5rem;">
+    <div class="card">
+      <h2>Resumen rápido</h2>
+      <p class="dashboard-subtitle">
+        Tienes <strong>{{ accounts|length }}</strong> cuenta(s) registrada(s).
+      </p>
+      <p>Saldo total consolidado:</p>
+      <p class="card-balance">
+        ${{ "{:,.2f}".format(total_balance) }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Tarjetas de cuentas -->
+  <h2>Mis cuentas</h2>
+  <p class="dashboard-subtitle">
+    Cada tarjeta representa una cuenta en un banco distinto (Nequi, Bancolombia, Daviplata, Nu, etc.).
+  </p>
+
+  <div class="cards-grid">
+    {% for acc in accounts %}
+    <div class="card">
+      <h3>{{ acc.bank_type }} · {{ acc.name }}</h3>
+      <p>Saldo actual:</p>
+      <p class="card-balance">
+        ${{ "{:,.2f}".format(acc.balance) }}
+      </p>
+      <a href="{{ url_for('finance.movimientos', account_id=acc.id) }}" class="card-link">
+        Ver movimientos →
+      </a>
+    </div>
+    {% else %}
+    <p>No tienes cuentas registradas todavía. Empieza creando una cuenta en el formulario de la derecha.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Formularios en grid -->
+  <div class="form-grid">
+    <!-- Crear cuenta -->
+    <div class="card">
+      <h2>Agregar nueva cuenta</h2>
+      <p class="dashboard-subtitle">
+        Crea una cuenta simulada para un banco y asigna un saldo inicial.
+      </p>
+      <form method="post" action="{{ url_for('finance.create_account') }}" class="form">
+        <label class="form-label">Banco</label>
+        <select name="bank_type" class="form-input" required>
+          {% for b in bank_types %}
+          <option value="{{ b }}">{{ b }}</option>
+          {% endfor %}
+        </select>
+
+        <label class="form-label">Nombre / alias de la cuenta</label>
+        <input type="text" name="name" class="form-input"
+               placeholder="Ej. Nequi día a día" required>
+
+        <label class="form-label">Saldo inicial</label>
+        <input type="number" name="initial_balance" class="form-input"
+               step="0.01" value="0">
+
+        <button type="submit" class="btn btn-primary btn-full form-button">
+          Crear cuenta
+        </button>
+      </form>
+    </div>
+
+    <!-- Transferencia interna -->
+    <div class="card">
+      <h2>Transferencia interna</h2>
+      <p class="dashboard-subtitle">
+        Mueve saldo entre tus propias cuentas (por ejemplo, de Nequi a Bancolombia).
+      </p>
+      <form method="post" action="{{ url_for('finance.transfer_internal') }}" class="form">
+        <label class="form-label">Desde</label>
+        <select name="from_account_id" class="form-input" required>
+          {% for acc in accounts %}
+          <option value="{{ acc.id }}">{{ acc.bank_type }} · {{ acc.name }}</option>
+          {% endfor %}
+        </select>
+
+        <label class="form-label">Hacia</label>
+        <select name="to_account_id" class="form-input" required>
+          {% for acc in accounts %}
+          <option value="{{ acc.id }}">{{ acc.bank_type }} · {{ acc.name }}</option>
+          {% endfor %}
+        </select>
+
+        <label class="form-label">Monto</label>
+        <input type="number" name="amount" class="form-input" step="0.01" required>
+
+        <label class="form-label">Descripción (opcional)</label>
+        <input type="text" name="description" class="form-input"
+               placeholder="Ej. Ahorros del mes">
+
+        <button type="submit" class="btn btn-primary btn-full form-button">
+          Transferir
+        </button>
+      </form>
+    </div>
+
+    <!-- Transferencia externa -->
+    <div class="card">
+      <h2>Transferencia a otro usuario</h2>
+      <p class="dashboard-subtitle">
+        Envía saldo a otro usuario del portal usando su correo electrónico registrado.
+      </p>
+      <form method="post" action="{{ url_for('finance.transfer_external') }}" class="form">
+        <label class="form-label">Desde</label>
+        <select name="from_account_id" class="form-input" required>
+          {% for acc in accounts %}
+          <option value="{{ acc.id }}">{{ acc.bank_type }} · {{ acc.name }}</option>
+          {% endfor %}
+        </select>
+
+        <label class="form-label">Correo del destinatario</label>
+        <input type="email" name="recipient_email" class="form-input"
+               placeholder="usuario@ejemplo.com" required>
+
+        <label class="form-label">Monto</label>
+        <input type="number" name="amount" class="form-input" step="0.01" required>
+
+        <label class="form-label">Descripción (opcional)</label>
+        <input type="text" name="description" class="form-input"
+               placeholder="Ej. Pago de servicio">
+
+        <button type="submit" class="btn btn-primary btn-full form-button">
+          Enviar
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Portal financiero{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">
+            <div class="brand-logo">PF</div>
+            <div class="brand-text">
+                <div class="brand-text-main">Portal Financiero</div>
+                <div class="brand-text-sub">Gestión financiera personal con MFA</div>
+            </div>
+        </div>
+        <nav class="nav">
+            <a href="{{ url_for('landing') }}">Inicio</a>
+
+            {% if is_authenticated %}
+                <a href="{{ url_for('finance.dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('finance.gestion') }}">Cuentas y transferencias</a>
+                <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}">Iniciar sesión</a>
+                <a href="{{ url_for('auth.register') }}">Registrarse</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+
+<main class="main">
+    {# Mensajes flash #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <span>Portal Financiero · Autenticación Multifactor (MFA)</span>
+        <span>Proyecto académico</span>
+    </div>
+</footer>
+</body>
+</html>

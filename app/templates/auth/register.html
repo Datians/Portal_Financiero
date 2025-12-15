@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Registro - Portal Financiero{% endblock %}
+{% block content %}
+<section class="form-section">
+  <h1>Crear cuenta</h1>
+  <form method="post" class="form-card">
+    <label>
+      Correo electrónico
+      <input type="email" name="email" required>
+    </label>
+    <label>
+      Contraseña
+      <input type="password" name="password" minlength="8" required>
+    </label>
+    <button type="submit" class="btn btn-primary">Registrarme</button>
+  </form>
+  <p class="form-footer">
+    ¿Ya tienes cuenta? <a href="{{ url_for('auth.login') }}">Inicia sesión</a>.
+  </p>
+</section>
+{% endblock %}

@@ -1,0 +1,9 @@
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.7
+Flask-Mail==0.9.1
+Flask-Bcrypt==1.0.1
+python-dotenv==1.0.1
+itsdangerous==2.2.0
+resend
+gunicorn==21.2.0

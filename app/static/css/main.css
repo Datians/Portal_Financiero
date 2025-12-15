@@ -1,0 +1,448 @@
+:root {
+  --bg: #020617;
+  --bg-alt: #0b1120;
+  --card: #020617;
+  --border: #1f2937;
+  --accent: #22c55e;
+  --accent-soft: rgba(34,197,94,0.15);
+  --text: #e5e7eb;
+  --text-muted: #9ca3af;
+  --danger: #f97373;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
+  color: var(--text);
+}
+
+a { color: inherit; text-decoration: none; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(16px);
+  background: rgba(15,23,42,0.9);
+  border-bottom: 1px solid rgba(148,163,184,0.3);
+}
+
+.topbar-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0.6rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 20% 0, #4ade80, #22c55e 55%, #14532d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #022c22;
+}
+
+.brand-text-main {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.brand-text-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.nav {
+  display: flex;
+  gap: 0.7rem;
+  font-size: 0.8rem;
+}
+
+.nav a {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+}
+
+.nav a:hover {
+  color: var(--text);
+  border-color: rgba(148,163,184,0.6);
+  background: rgba(15,23,42,0.95);
+}
+
+.main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.6rem 1.2rem 2rem;
+}
+
+.flash-container {
+  margin-bottom: 1rem;
+}
+
+.flash {
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.7rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+}
+
+.flash-error {
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.6);
+}
+
+.flash-info {
+  background: rgba(59,130,246,0.12);
+  border: 1px solid rgba(59,130,246,0.6);
+}
+
+.flash-success {
+  background: rgba(34,197,94,0.12);
+  border: 1px solid rgba(34,197,94,0.6);
+}
+
+/* === HERO / LANDING === */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1.8rem;
+  align-items: center;
+}
+
+@media (max-width: 880px) {
+  .hero {
+    grid-template-columns: minmax(0,1fr);
+  }
+}
+
+.hero-text h1 {
+  font-size: clamp(1.8rem, 3vw, 2.3rem);
+  margin: 0 0 0.7rem;
+}
+
+.hero-text p {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.hero-panel {
+  background: radial-gradient(circle at top, rgba(34,197,94,0.15), rgba(15,23,42,1));
+  border-radius: 20px;
+  border: 1px solid rgba(148,163,184,0.4);
+  padding: 1rem 1.1rem;
+  font-size: 0.86rem;
+}
+
+.hero-panel h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.hero-panel ol {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--text-muted);
+}
+
+/* contenedor de botones del hero */
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* === FORM / INFO / DASHBOARD CONTENEDORES === */
+
+.form-section, .info-section, .dashboard {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.form-section h1, .info-section h1, .dashboard h1 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+}
+
+.form-card {
+  margin-top: 0.6rem;
+  padding: 1rem 1rem 1.1rem;
+  border-radius: var(--radius);
+  background: rgba(15,23,42,0.98);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.form-card label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-card input {
+  padding: 0.45rem 0.55rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border);
+  background: #020617;
+  color: var(--text);
+  font-size: 0.86rem;
+}
+
+.form-card input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-footer {
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.info-section p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.dashboard-subtitle {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+/* === CARDS / TABLAS === */
+
+.cards-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+}
+
+.card {
+  padding: 0.9rem;
+  border-radius: var(--radius);
+  background: rgba(15,23,42,0.98);
+  border: 1px solid var(--border);
+  display: block;
+}
+
+.card h2 {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card p {
+  margin: 0.1rem 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.card-balance {
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.card-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+}
+
+.table th, .table td {
+  padding: 0.5rem 0.4rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(31,41,55,0.9);
+}
+
+.table th {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.amount.pos {
+  color: #4ade80;
+}
+
+.amount.neg {
+  color: #f97373;
+}
+
+/* === FOOTER === */
+
+.footer {
+  border-top: 1px solid rgba(31,41,55,1);
+  background: #020617;
+}
+
+.footer-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0.8rem 1.2rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .footer-inner {
+    flex-direction: column;
+  }
+}
+
+/* === GRID DE FORMULARIOS (GESTIÓN) === */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Formularios dentro de las tarjetas */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  color: #aab4c4;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #263445;
+  background-color: #0b1725;
+  color: #f3f7ff;
+  font-size: 0.9rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #31c86a;
+  box-shadow: 0 0 0 1px rgba(49, 200, 106, 0.4);
+}
+
+/* botón dentro de formularios */
+.form-button {
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+/* Por si quieres que los inputs no se vean tan pegados al borde de la card */
+.card .form {
+  margin-top: 0.8rem;
+}
+
+/* === BOTONES GENERALES (UNIFICADOS) === */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+
+  padding: 0.55rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.1;
+  cursor: pointer;
+
+  text-decoration: none;
+  white-space: nowrap;
+
+  background: #1f2937;
+  color: #f9fafb;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.12s ease;
+}
+
+/* Botón primario (verde, acorde al logo PF) */
+.btn-primary {
+  background: linear-gradient(135deg, #16c964, #1fe275);
+  color: #02110b;
+  box-shadow: 0 10px 25px rgba(22, 201, 100, 0.35);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1fe275, #2bf17f);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(22, 201, 100, 0.45);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(22, 201, 100, 0.35);
+}
+
+/* Botón secundario (bordeado, para acciones menos importantes) */
+.btn-secondary {
+  background: transparent;
+  color: #e2ecff;
+  border-color: #36435b;
+}
+
+.btn-secondary:hover {
+  background: rgba(54, 67, 91, 0.35);
+  border-color: #455673;
+}
+
+/* Botón que ocupa todo el ancho del contenedor */
+.btn-full {
+  width: 100%;
+}
+
+/* Quitar borde del botón nativo cuando usamos .btn */
+button.btn {
+  border: none;
+}

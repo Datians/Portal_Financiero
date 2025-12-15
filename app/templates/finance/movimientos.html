@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Movimientos - {{ account.name }}{% endblock %}
+{% block content %}
+<section class="dashboard">
+  <h1>{{ account.bank_type }} · {{ account.name }}</h1>
+  <p class="dashboard-subtitle">
+    Movimientos recientes de tu cuenta. Los montos negativos representan salidas de dinero
+    y los positivos entradas o transferencias recibidas.
+  </p>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Descripción</th>
+        <th>Tipo</th>
+        <th>Contraparte</th>
+        <th>Monto</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tx in txs %}
+      <tr>
+        <td>{{ tx.date.strftime("%Y-%m-%d %H:%M") }}</td>
+        <td>{{ tx.description }}</td>
+        <td>{{ tx.type }}</td>
+        <td>
+          {% if tx.counterparty_email %}
+            {{ tx.counterparty_email }}
+          {% elif tx.counterparty_account_id %}
+            Cuenta #{{ tx.counterparty_account_id }}
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td class="amount {{ 'neg' if tx.amount < 0 else 'pos' }}">
+          {{ "{:,.2f}".format(tx.amount) }}
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="5">No hay movimientos registrados.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

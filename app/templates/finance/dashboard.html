@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Dashboard financiero{% endblock %}
+{% block content %}
+<section class="dashboard">
+  <h1>Resumen financiero</h1>
+  <p class="dashboard-subtitle">
+    Aquí puedes ver el estado general de tus cuentas bancarias simuladas.
+  </p>
+
+  <!-- Resumen general -->
+  <div class="cards-grid">
+    <div class="card">
+      <h2>Saldo total consolidado</h2>
+      <p>Sumatoria de todas tus cuentas activas.</p>
+      <p class="card-balance">
+        ${{ "{:,.2f}".format(total_balance) }}
+      </p>
+    </div>
+    <div class="card">
+      <h2>Cuentas registradas</h2>
+      <p>Cantidad total de cuentas bancarias simuladas.</p>
+      <p class="card-balance">
+        {{ accounts|length }}
+      </p>
+      <p class="dashboard-subtitle" style="margin-top:.5rem;">
+        Gestiona tus cuentas y transferencias desde el menú
+        <strong>“Cuentas y transferencias”</strong>.
+      </p>
+    </div>
+  </div>
+
+  <!-- Listado de cuentas -->
+  <h2 style="margin-top:2rem;">Mis cuentas bancarias</h2>
+  <p class="dashboard-subtitle">
+    Cada tarjeta representa una cuenta en un banco distinto
+    (Nequi, Bancolombia, Daviplata, Nu, etc.).
+  </p>
+
+  <div class="cards-grid">
+    {% for acc in accounts %}
+    <a href="{{ url_for('finance.movimientos', account_id=acc.id) }}" class="card">
+      <h2>{{ acc.bank_type }} · {{ acc.name }}</h2>
+      <p>Saldo actual:</p>
+      <p class="card-balance">
+        ${{ "{:,.2f}".format(acc.balance) }}
+      </p>
+      <span class="card-link">Ver movimientos →</span>
+    </a>
+    {% else %}
+    <p>No tienes cuentas registradas aún. Empieza creando una en
+      <strong>Cuentas y transferencias</strong>.
+    </p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

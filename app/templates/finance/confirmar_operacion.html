@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Confirmar operación{% endblock %}
+
+{% block content %}
+<section class="form-section">
+  <h1>Confirmar operación</h1>
+  <p class="dashboard-subtitle">
+    Para continuar, ingresa el código OTP que enviamos a <strong>{{ user.email }}</strong>.
+  </p>
+
+  <div class="card" style="margin-top:1rem; padding:1rem;">
+    <h2 style="margin:0 0 .35rem;">{{ summary.title }}</h2>
+    {% if summary.detail %}
+      <p class="dashboard-subtitle" style="margin:0;">{{ summary.detail }}</p>
+    {% endif %}
+  </div>
+
+  <form method="post" class="form-card" style="margin-top:1rem;">
+    <label>
+      Código OTP
+      <input type="text" name="code" pattern="\d{6}" placeholder="123456" required>
+    </label>
+    <button type="submit" class="btn btn-primary">Confirmar operación</button>
+  </form>
+
+  <div style="display:flex; gap:.6rem; flex-wrap:wrap; margin-top:.8rem;">
+    <form method="post" action="{{ url_for('finance.reenviar_otp_operacion') }}">
+      <button type="submit" class="btn btn-secondary">Reenviar código</button>
+    </form>
+    <form method="post" action="{{ url_for('finance.cancelar_operacion') }}">
+      <button type="submit" class="btn btn-secondary">Cancelar</button>
+    </form>
+  </div>
+
+  <p class="form-footer">
+    Consejo: si el código expiró, pulsa <strong>Reenviar código</strong>.
+  </p>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Verificar código OTP{% endblock %}
+{% block content %}
+<section class="form-section">
+  <h1>Verificación OTP</h1>
+  <p>Hemos enviado un código de seis dígitos al correo <strong>{{ user.email }}</strong>.</p>
+  <form method="post" class="form-card">
+    <label>
+      Código OTP
+      <input type="text" name="code" pattern="\d{6}" placeholder="123456" required>
+    </label>
+    <button type="submit" class="btn btn-primary">Verificar y entrar</button>
+  </form>
+</section>
+{% endblock %}

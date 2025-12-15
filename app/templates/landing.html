@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Portal Financiero{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-text">
+    <h1>Gestiona tus finanzas con seguridad multifactor</h1>
+    <p>
+      Registra tus cuentas, revisa tus movimientos y controla tus gastos
+      en un entorno protegido con verificación de correo, contraseña segura
+      y código OTP enviado a tu correo.
+    </p>
+
+    {% if not is_authenticated %}
+      <div class="hero-buttons">
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary">
+          Crear cuenta
+        </a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">
+          Iniciar sesión
+        </a>
+      </div>
+    {% else %}
+      <div class="hero-buttons">
+        <a href="{{ url_for('finance.dashboard') }}" class="btn btn-primary">
+          Ir a mi dashboard
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+  <aside class="hero-panel">
+    <h2>Flujo de acceso seguro</h2>
+    <ol>
+      <li>Te registras con tu correo y contraseña.</li>
+      <li>Verificas tu correo desde el enlace enviado.</li>
+      <li>Inicias sesión con tu correo y contraseña.</li>
+      <li>Recibes un código OTP en tu correo.</li>
+      <li>Ingresas el OTP y accedes a tu portal financiero.</li>
+    </ol>
+  </aside>
+</section>
+{% endblock %}

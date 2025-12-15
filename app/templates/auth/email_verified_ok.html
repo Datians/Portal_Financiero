@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Correo verificado{% endblock %}
+{% block content %}
+<section class="info-section">
+  <h1>Correo verificado correctamente</h1>
+  <p>Ya puedes iniciar sesión en tu portal financiero.</p>
+  <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Ir a iniciar sesión</a>
+</section>
+{% endblock %}
